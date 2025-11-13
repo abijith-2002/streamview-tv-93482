@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
@@ -43,21 +45,21 @@ class HomeFragment : BrowseSupportFragment() {
         headersState = HEADERS_ENABLED
         isHeadersTransitionOnBackEnabled = true
 
-        // Recycler/Row adapter
+        // Recycler/Row adapter using ListRowPresenter
         rowsAdapter = ArrayObjectAdapter(ListRowPresenter().apply {
             shadowEnabled = true
             selectEffectEnabled = true
         })
 
         // Data stub to mirror design
-        val continueWatching = buildContinueWatchingItems(requireContext())
-        val tvChannels = buildTvChannelItems(requireContext())
+        val continueWatching = buildContinueWatchingItems()
+        val tvChannels = buildTvChannelItems()
 
         // Row 1: Seguí viendo
-        rowsAdapter.add(buildListRow(requireContext(), "Seguí viendo", continueWatching))
+        rowsAdapter.add(buildListRow("Seguí viendo", continueWatching))
 
         // Row 2: Canales de TV
-        rowsAdapter.add(buildListRow(requireContext(), "Canales de TV", tvChannels))
+        rowsAdapter.add(buildListRow("Canales de TV", tvChannels))
 
         adapter = rowsAdapter
 
@@ -70,15 +72,15 @@ class HomeFragment : BrowseSupportFragment() {
         }
     }
 
-    private fun buildListRow(context: Context, header: String, items: List<CardItem>): ListRow {
-        val presenterSelector = CardPresenterSelector(context)
+    private fun buildListRow(header: String, items: List<CardItem>): ListRow {
+        val presenterSelector = CardPresenterSelector(requireContext())
         val listRowAdapter = ArrayObjectAdapter(presenterSelector)
         items.forEach { listRowAdapter.add(it) }
         val headerItem = HeaderItem(header)
         return ListRow(headerItem, listRowAdapter)
     }
 
-    private fun buildContinueWatchingItems(context: Context): List<CardItem> {
+    private fun buildContinueWatchingItems(): List<CardItem> {
         // Map to the design-provided images
         return listOf(
             CardItem(
@@ -107,9 +109,9 @@ class HomeFragment : BrowseSupportFragment() {
                 progress = 0.35f
             ),
         )
-    }
+        }
 
-    private fun buildTvChannelItems(context: Context): List<CardItem> {
+    private fun buildTvChannelItems(): List<CardItem> {
         return listOf(
             CardItem(
                 title = "Marca Claro Radio",
@@ -140,7 +142,7 @@ data class CardItem(
 )
 
 /**
- * PresenterSelector that returns our custom card presenter
+ * PresenterSelector that returns our custom card presenter.
  */
 class CardPresenterSelector(private val context: Context) : PresenterSelector() {
     private val presenter: Presenter = OPImageCardPresenter(context)
@@ -153,9 +155,10 @@ class CardPresenterSelector(private val context: Context) : PresenterSelector() 
  */
 class OPImageCardPresenter(private val context: Context) : Presenter() {
 
+    // ViewHolder that wraps an ImageCardView
     class ViewHolder(val cardView: ImageCardView) : Presenter.ViewHolder(cardView)
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
         val cardView = object : ImageCardView(parent.context) {
             override fun setSelected(selected: Boolean) {
                 super.setSelected(selected)
@@ -190,37 +193,31 @@ class OPImageCardPresenter(private val context: Context) : Presenter() {
         val cardView = vh.cardView
         val card = item as CardItem
 
+        // Title
         cardView.titleText = card.title
-        // Set title text appearance if available via method; otherwise set properties directly
-        // ImageCardView doesn't expose setTitleTextAppearance in all versions, so set directly via TextView ids if present.
-        try {
-            val titleId = androidx.leanback.R.id.title_text
-            val titleView = cardView.findViewById<View>(titleId)
-            if (titleView is android.widget.TextView) {
-                titleView.setTextColor(ContextCompat.getColor(cardView.context, R.color.op_surface))
-                titleView.textSize = 18f
-                titleView.setTypeface(titleView.typeface, android.graphics.Typeface.BOLD)
-            }
-        } catch (_: Throwable) {
-            // No-op fallback
+
+        // Title style adjustments via internal TextView if present
+        val titleView = cardView.findViewById<View>(androidx.leanback.R.id.title_text)
+        if (titleView is TextView) {
+            titleView.setTextColor(ContextCompat.getColor(cardView.context, R.color.op_surface))
+            titleView.textSize = 18f
+            titleView.setTypeface(titleView.typeface, android.graphics.Typeface.BOLD)
         }
 
-        // Load images from resources (we copied Figma PNGs as drawables)
+        // Load images from resources
         cardView.mainImage = ContextCompat.getDrawable(cardView.context, card.imageRes)
 
-        // Attach progress bar to the info area
+        // Ensure an info area progress bar exists
         val infoField = cardView.findViewById<View>(androidx.leanback.R.id.info_field)
-        infoField?.let { container ->
-            if (container is ViewGroup) {
-                // Remove previous progress bar if any
-                for (i in container.childCount - 1 downTo 0) {
-                    val v = container.getChildAt(i)
-                    if (v.tag == "progress_bar") container.removeViewAt(i)
-                }
-                val progressBar = buildProgressBar(cardView.context, card.progress)
-                progressBar.tag = "progress_bar"
-                container.addView(progressBar)
+        if (infoField is ViewGroup) {
+            // Remove previous progress bar if any
+            for (i in infoField.childCount - 1 downTo 0) {
+                val v = infoField.getChildAt(i)
+                if (v.tag == "progress_bar") infoField.removeViewAt(i)
             }
+            val progressBar = buildProgressBar(cardView.context, card.progress)
+            progressBar.tag = "progress_bar"
+            infoField.addView(progressBar)
         }
     }
 
@@ -228,30 +225,30 @@ class OPImageCardPresenter(private val context: Context) : Presenter() {
         val dp = context.resources.displayMetrics.density
         val barHeight = (8 * dp).toInt()
 
-        val container = android.widget.FrameLayout(context)
-        val params = android.widget.FrameLayout.LayoutParams(
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+        val container = FrameLayout(context)
+        val params = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
             barHeight
         )
         params.topMargin = (8 * dp).toInt()
 
-        // Background
-        val bg = View(context)
-        bg.setBackgroundColor(ContextCompat.getColor(context, R.color.op_card_bg_focus))
-        val bgParams = android.widget.FrameLayout.LayoutParams(
-            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+        // Background bar
+        val bg = View(context).apply {
+            setBackgroundColor(ContextCompat.getColor(context, R.color.op_card_bg_focus))
+        }
+        val bgParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
             barHeight
         )
         container.addView(bg, bgParams)
 
-        // Foreground with primary color width based on progress
-        val fg = View(context)
-        fg.setBackgroundColor(ContextCompat.getColor(context, R.color.op_secondary))
-        val widthPercent = progress.coerceIn(0f, 1f)
-        val fgParams = android.widget.FrameLayout.LayoutParams(
-            (widthPercent * 600).toInt(),
-            barHeight
-        )
+        // Foreground bar width based on progress
+        val clamped = progress.coerceIn(0f, 1f)
+        val fgWidth = (clamped * 600).toInt().coerceAtLeast((24 * dp).toInt()) // ensure small but visible
+        val fg = View(context).apply {
+            setBackgroundColor(ContextCompat.getColor(context, R.color.op_secondary))
+        }
+        val fgParams = FrameLayout.LayoutParams(fgWidth, barHeight)
         container.addView(fg, fgParams)
 
         container.layoutParams = params
