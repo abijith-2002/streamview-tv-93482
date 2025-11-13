@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Overscan safe margin: 48dp -->
+    <dimen name="overscan_safe_margin">48dp</dimen>
+
+    <!-- Navbar -->
+    <dimen name="navbar_height">72dp</dimen>
+    <dimen name="nav_pill_height">53dp</dimen>
+    <dimen name="nav_pill_min_width">96dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+
+    <!-- Radii -->
+    <dimen name="radius_sm">6dp</dimen>
+    <dimen name="radius_md">12dp</dimen>
+    <dimen name="radius_lg">18dp</dimen>
+    <dimen name="radius_pill">37dp</dimen>
+
+    <!-- Focus border -->
+    <dimen name="focus_stroke">3dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="elevation_default">6dp</dimen>
+
+    <!-- Banner size (approx 1744x444 on 1080p) -->
+    <dimen name="banner_width">1744dp</dimen>
+    <dimen name="banner_height">444dp</dimen>
+
+    <!-- Landscape card size -->
+    <dimen name="land_card_width">412dp</dimen>
+    <dimen name="land_card_height">232dp</dimen>
+</resources>

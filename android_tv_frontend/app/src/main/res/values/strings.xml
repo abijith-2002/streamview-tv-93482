@@ -10,4 +10,9 @@
     <string name="rating_dislike">I don\'t like it</string>
     <string name="rating_close">Close</string>
     <string name="rating_countdown">Closing in %d seconds</string>
+
+    <!-- Home rows -->
+    <string name="row_continue_watching">Seguí viendo</string>
+    <string name="row_for_you">Para ti</string>
+    <string name="row_live_tv">TV en vivo</string>
 </resources>
