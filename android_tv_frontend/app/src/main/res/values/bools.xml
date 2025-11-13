@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Optional flags used by our code; Leanback has its own internal configs -->
     <bool name="lb_focus_highlight_enabled">true</bool>
     <bool name="lb_focus_z_enabled">true</bool>
+
+    <!-- Common Leanback config names to avoid unresolved references if used -->
+    <bool name="lbBrowseRowsFadingEdgeEnabled">false</bool>
+    <bool name="lbSearchOrbBright">true</bool>
 </resources>

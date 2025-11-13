@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme for Android TV with Ocean Professional palette -->
+    <!-- Use a Leanback theme to ensure LB widgets, attrs, and text appearances resolve -->
     <style name="AppTheme" parent="Theme.Leanback">
         <item name="android:windowBackground">@color/op_background</item>
         <item name="android:colorPrimary">@color/op_primary</item>
         <item name="android:colorAccent">@color/op_secondary</item>
 
-        <!-- Leanback styling -->
+        <!-- Leanback styling: reference valid Leanback styles -->
         <item name="browseTitleTextStyle">@style/OP.TitleTextStyle</item>
         <item name="rowHeaderStyle">@style/OP.RowHeaderStyle</item>
         <item name="searchOrbViewStyle">@style/OP.SearchOrb</item>
 
-        <!-- Focus highlight -->
-        <item name="browseRowsBackground">@color/op_background</item>
-        <item name="focusHighlightOn">@bool/lb_focus_highlight_enabled</item>
-        <item name="focusHighlightUseZ">@bool/lb_focus_z_enabled</item>
+        <!-- Remove invalid/unknown attributes that cause linking errors.
+             Browse rows background is not a standard LB attribute; rely on fragment background instead.
+             focusHighlightOn/focusHighlightUseZ are replaced by OP bools read by our code or by default LB configs. -->
     </style>
 
-    <style name="OP.TitleTextStyle" parent="@style/TextAppearance.Leanback.Heading">
+    <!-- Leanback text appearance for headings (Browse title and headers) -->
+    <style name="OP.TitleTextStyle" parent="TextAppearance.Leanback.Heading">
         <item name="android:textColor">@color/op_text</item>
     </style>
 
-    <style name="OP.RowHeaderStyle" parent="@style/Widget.Leanback.RowHeader">
+    <!-- Row header style -->
+    <style name="OP.RowHeaderStyle" parent="Widget.Leanback.RowHeader">
         <item name="android:textColor">@color/op_text</item>
     </style>
 
-    <style name="OP.SearchOrb" parent="@style/Widget.Leanback.SearchOrbView">
+    <!-- Search orb style (core Leanback; no leanback-preference dependency required) -->
+    <style name="OP.SearchOrb" parent="Widget.Leanback.SearchOrbView">
         <item name="searchOrbColor">@color/op_primary</item>
         <item name="searchOrbBrightColor">@color/op_secondary</item>
     </style>
 
     <!-- Card title text -->
-    <style name="OP.CardTitleText" parent="@style/TextAppearance.Leanback.ImageCardView.Title">
+    <style name="OP.CardTitleText" parent="TextAppearance.Leanback.ImageCardView.Title">
         <item name="android:textColor">@color/op_surface</item>
     </style>
+    <!-- Alias without dot to allow R.style.OP_CardTitleText usage in code -->
+    <style name="OP_CardTitleText" parent="OP.CardTitleText" />
 
     <!-- Backgrounds -->
     <style name="OP.BrowseFragmentBackground">

@@ -188,7 +188,8 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         val card = item as CardItem
         val cardView = viewHolder.view as ImageCardView
         cardView.titleText = card.title
-        cardView.setTitleTextAppearance(R.style.OP.CardTitleText)
+        // Ensure styles.xml defines OP.CardTitleText using Leanback's TextAppearance
+        cardView.setTitleTextAppearance(R.style.OP_CardTitleText)
 
         // Load images from resources (we copied Figma PNGs as drawables)
         cardView.mainImage = ContextCompat.getDrawable(cardView.context, card.imageRes)
