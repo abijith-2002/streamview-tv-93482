@@ -20,10 +20,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- Local row header text style without inheriting from Leanback to avoid unresolved refs -->
+    <!-- Local row header text style: matches section header spec from Figma -->
     <style name="OP_RowHeaderStyle">
         <item name="android:textColor">@color/op_text</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">@dimen/section_header_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">@dimen/section_header_top_padding</item>
+        <item name="android:paddingBottom">@dimen/section_header_bottom_spacing</item>
+        <item name="android:paddingLeft">@dimen/tv_safe_margin_horizontal</item>
+        <item name="android:paddingRight">@dimen/tv_safe_margin_horizontal</item>
     </style>
 
     <!-- Local search orb view surrogate; uses supported attributes only -->
@@ -37,6 +42,14 @@
         <item name="android:textColor">@color/op_surface</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Card focused state helper background (used for info area when focused) -->
+    <style name="OP_CardInfo_Focused">
+        <item name="android:background">@color/op_card_bg_focus</item>
+    </style>
+    <style name="OP_CardInfo_Normal">
+        <item name="android:background">@color/op_card_bg</item>
     </style>
 
     <!-- Backgrounds -->

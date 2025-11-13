@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 10-foot safe margins (overscan ~8% each side, use conservative 88dp left/right) -->
+    <dimen name="tv_safe_margin_horizontal">88dp</dimen>
+    <dimen name="tv_safe_margin_top">40dp</dimen>
+    <dimen name="tv_safe_margin_between_sections">24dp</dimen>
+
+    <!-- Section header typography and spacing -->
+    <dimen name="section_header_text_size">32sp</dimen>
+    <dimen name="section_header_top_padding">16dp</dimen>
+    <dimen name="section_header_bottom_spacing">24dp</dimen>
+
+    <!-- Row content paddings and spacing -->
+    <dimen name="row_horizontal_padding">32dp</dimen>
+    <dimen name="row_vertical_padding">24dp</dimen>
+    <dimen name="item_horizontal_spacing">24dp</dimen>
+    <dimen name="item_vertical_spacing">24dp</dimen>
+
+    <!-- Card dimensions to match Figma screen_1:2 -->
+    <!-- "Seguí viendo" first card was 474x267, others 412x232; choose consistent TV-friendly baseline that fits 1080p -->
+    <dimen name="card_width_large">474dp</dimen>
+    <dimen name="card_height_large">267dp</dimen>
+    <dimen name="card_width">412dp</dimen>
+    <dimen name="card_height">232dp</dimen>
+
+    <!-- Focus scale and outline -->
+    <dimen name="focus_outline_width">3dp</dimen>
+    <dimen name="focus_shadow_elevation">16dp</dimen>
+    <item name="focus_scale" format="float" type="dimen">1.06</item>
+
+    <!-- Progress bar sizes -->
+    <dimen name="progress_height">8dp</dimen>
+    <dimen name="progress_top_margin">8dp</dimen>
+
+    <!-- Corner radii -->
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="focus_outline_radius">10dp</dimen>
+</resources>
