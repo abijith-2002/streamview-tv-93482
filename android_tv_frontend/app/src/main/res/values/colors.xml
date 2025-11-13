@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TV optimized colors -->
+    <!-- Legacy colors -->
     <color name="tv_background">#000000</color>
     <color name="tv_overlay">#CC000000</color>
     <color name="tv_primary">#FFFFFF</color>
@@ -8,4 +8,16 @@
     <color name="tv_accent">#2196F3</color>
     <color name="tv_button_focused">#FFFFFF</color>
     <color name="tv_button_normal">#80FFFFFF</color>
+
+    <!-- Ocean Professional Theme -->
+    <color name="op_primary">#2563EB</color>
+    <color name="op_secondary">#F59E0B</color>
+    <color name="op_background">#f9fafb</color>
+    <color name="op_surface">#ffffff</color>
+    <color name="op_text">#111827</color>
+
+    <!-- Surface variants for TV -->
+    <color name="op_surface_dim">#F3F4F6</color>
+    <color name="op_card_bg">#101114</color>
+    <color name="op_card_bg_focus">#1B1D22</color>
 </resources>

@@ -1,9 +1,9 @@
 package com.example.android_tv_frontend
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
 import android.view.KeyEvent
-import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import com.example.android_tv_frontend.home.HomeFragment
 
 /**
  * Main Activity for Android TV
@@ -11,33 +11,20 @@ import android.widget.TextView
  */
 class MainActivity : FragmentActivity() {
 
-    private lateinit var titleText: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        
-        titleText = findViewById(R.id.title_text)
-        titleText.text = "android_tv_frontend"
-        
-        // TODO: Initialize your rating screen components here
-        // setupRatingOverlay()
+        setContentView(R.layout.fragment_home_host)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.home_host_container, HomeFragment(), "home")
+                .commit()
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // Handle TV remote control inputs
-        return when (keyCode) {
-            KeyEvent.KEYCODE_DPAD_CENTER,
-            KeyEvent.KEYCODE_ENTER -> {
-                // Handle SELECT/OK button
-                true
-            }
-            KeyEvent.KEYCODE_BACK -> {
-                // Handle BACK button
-                finish()
-                true
-            }
-            else -> super.onKeyDown(keyCode, event)
-        }
+        // Delegate DPAD to focused views/fragments; keep back behavior default
+        return super.onKeyDown(keyCode, event)
     }
 }

@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme for Android TV -->
+    <!-- Base application theme for Android TV with Ocean Professional palette -->
     <style name="AppTheme" parent="Theme.Leanback">
-        <!-- Customize your theme here -->
-        <item name="android:windowBackground">@color/tv_background</item>
-        <item name="android:colorPrimary">@color/tv_accent</item>
+        <item name="android:windowBackground">@color/op_background</item>
+        <item name="android:colorPrimary">@color/op_primary</item>
+        <item name="android:colorAccent">@color/op_secondary</item>
+
+        <!-- Leanback styling -->
+        <item name="browseTitleTextStyle">@style/OP.TitleTextStyle</item>
+        <item name="rowHeaderStyle">@style/OP.RowHeaderStyle</item>
+        <item name="searchOrbViewStyle">@style/OP.SearchOrb</item>
+
+        <!-- Focus highlight -->
+        <item name="browseRowsBackground">@color/op_background</item>
+        <item name="focusHighlightOn">@bool/lb_focus_highlight_enabled</item>
+        <item name="focusHighlightUseZ">@bool/lb_focus_z_enabled</item>
+    </style>
+
+    <style name="OP.TitleTextStyle" parent="@style/TextAppearance.Leanback.Heading">
+        <item name="android:textColor">@color/op_text</item>
+    </style>
+
+    <style name="OP.RowHeaderStyle" parent="@style/Widget.Leanback.RowHeader">
+        <item name="android:textColor">@color/op_text</item>
+    </style>
+
+    <style name="OP.SearchOrb" parent="@style/Widget.Leanback.SearchOrbView">
+        <item name="searchOrbColor">@color/op_primary</item>
+        <item name="searchOrbBrightColor">@color/op_secondary</item>
+    </style>
+
+    <!-- Card title text -->
+    <style name="OP.CardTitleText" parent="@style/TextAppearance.Leanback.ImageCardView.Title">
+        <item name="android:textColor">@color/op_surface</item>
+    </style>
+
+    <!-- Backgrounds -->
+    <style name="OP.BrowseFragmentBackground">
+        <item name="android:background">@color/op_background</item>
     </style>
 </resources>
