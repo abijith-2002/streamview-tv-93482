@@ -7,41 +7,40 @@
         <item name="android:colorPrimary">@color/op_primary</item>
         <item name="android:colorAccent">@color/op_secondary</item>
 
-        <!-- Leanback styling: reference valid Leanback styles -->
-        <item name="browseTitleTextStyle">@style/OP.TitleTextStyle</item>
-        <item name="rowHeaderStyle">@style/OP.RowHeaderStyle</item>
-        <item name="searchOrbViewStyle">@style/OP.SearchOrb</item>
-
-        <!-- Remove invalid/unknown attributes that cause linking errors.
-             Browse rows background is not a standard LB attribute; rely on fragment background instead.
-             focusHighlightOn/focusHighlightUseZ are replaced by OP bools read by our code or by default LB configs. -->
+        <!-- Safe references to our own top-level styles (no dotted names) -->
+        <item name="browseTitleTextStyle">@style/OP_TitleTextStyle</item>
+        <item name="rowHeaderStyle">@style/OP_RowHeaderStyle</item>
+        <item name="searchOrbViewStyle">@style/OP_SearchOrb</item>
     </style>
 
-    <!-- Leanback text appearance for headings (Browse title and headers) -->
-    <style name="OP.TitleTextStyle" parent="TextAppearance.Leanback.Heading">
+    <!-- Local text appearance for headings used in app screens -->
+    <style name="OP_TitleTextStyle">
         <item name="android:textColor">@color/op_text</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- Row header style -->
-    <style name="OP.RowHeaderStyle" parent="Widget.Leanback.RowHeader">
+    <!-- Local row header text style without inheriting from Leanback to avoid unresolved refs -->
+    <style name="OP_RowHeaderStyle">
         <item name="android:textColor">@color/op_text</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
-    <!-- Search orb style (core Leanback; no leanback-preference dependency required) -->
-    <style name="OP.SearchOrb" parent="Widget.Leanback.SearchOrbView">
-        <item name="searchOrbColor">@color/op_primary</item>
-        <item name="searchOrbBrightColor">@color/op_secondary</item>
+    <!-- Local search orb view surrogate; uses supported attributes only -->
+    <style name="OP_SearchOrb">
+        <item name="android:background">@color/op_primary</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
-    <!-- Card title text -->
-    <style name="OP.CardTitleText" parent="TextAppearance.Leanback.ImageCardView.Title">
+    <!-- Card title text: define locally without depending on Leanback text appearances -->
+    <style name="OP_CardTitleText">
         <item name="android:textColor">@color/op_surface</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
-    <!-- Alias without dot to allow R.style.OP_CardTitleText usage in code -->
-    <style name="OP_CardTitleText" parent="OP.CardTitleText" />
 
     <!-- Backgrounds -->
-    <style name="OP.BrowseFragmentBackground">
+    <style name="OP_BrowseFragmentBackground">
         <item name="android:background">@color/op_background</item>
     </style>
 </resources>

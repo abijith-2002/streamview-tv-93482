@@ -3,9 +3,17 @@ package com.example.android_tv_frontend.home
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
-import androidx.leanback.widget.*
+import androidx.leanback.widget.ArrayObjectAdapter
+import androidx.leanback.widget.HeaderItem
+import androidx.leanback.widget.ImageCardView
+import androidx.leanback.widget.ImageCardViewPresenter
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.Presenter
+import androidx.leanback.widget.PresenterSelector
 import com.example.android_tv_frontend.R
 
 /**
@@ -54,11 +62,11 @@ class HomeFragment : BrowseSupportFragment() {
 
         adapter = rowsAdapter
 
-        setOnItemViewClickedListener { _, item, _, _ ->
+        setOnItemViewClickedListener { _, _, _, _ ->
             // Handle OK/Enter selection: for now, no-op
         }
 
-        setOnItemViewSelectedListener { _, item, _, _ ->
+        setOnItemViewSelectedListener { _, _, _, _ ->
             // Optionally update background or hero when selection changes
         }
     }
@@ -136,7 +144,7 @@ data class CardItem(
  * PresenterSelector that returns our custom card presenter
  */
 class CardPresenterSelector(private val context: Context) : PresenterSelector() {
-    private val presenter: Presenter by lazy { OPImageCardPresenter(context) }
+    private val presenter: Presenter = OPImageCardPresenter(context)
     override fun getPresenter(item: Any?): Presenter = presenter
 }
 
@@ -146,15 +154,11 @@ class CardPresenterSelector(private val context: Context) : PresenterSelector() 
  */
 class OPImageCardPresenter(private val context: Context) : ImageCardViewPresenter() {
 
-    init {
-        setThemeColor(context)
-    }
-
     private fun setThemeColor(context: Context) {
-        // The base ImageCardViewPresenter uses default colors; we adjust in onCreateViewHolder
+        // The base ImageCardViewPresenter uses default colors; adjustments happen in onCreateViewHolder
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ImageCardViewPresenter.ViewHolder {
         val cardView = object : ImageCardView(parent.context) {
             override fun setSelected(selected: Boolean) {
                 super.setSelected(selected)
@@ -181,14 +185,14 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         cardView.titleText = ""
         cardView.contentText = ""
 
-        return ViewHolder(cardView)
+        return ImageCardViewPresenter.ViewHolder(cardView)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
+    override fun onBindViewHolder(viewHolder: ImageCardViewPresenter.ViewHolder, item: Any) {
         val card = item as CardItem
         val cardView = viewHolder.view as ImageCardView
         cardView.titleText = card.title
-        // Ensure styles.xml defines OP.CardTitleText using Leanback's TextAppearance
+        // Use top-level style R id (Android generates underscores)
         cardView.setTitleTextAppearance(R.style.OP_CardTitleText)
 
         // Load images from resources (we copied Figma PNGs as drawables)
@@ -235,7 +239,7 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         fg.setBackgroundColor(ContextCompat.getColor(context, R.color.op_secondary))
         val widthPercent = progress.coerceIn(0f, 1f)
         val fgParams = android.widget.FrameLayout.LayoutParams(
-            (widthPercent * 600).toInt(), // arbitrary width; FrameLayout width is wrap, but LB info field is full width
+            (widthPercent * 600).toInt(),
             barHeight
         )
         container.addView(fg, fgParams)
@@ -244,7 +248,7 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         return container
     }
 
-    override fun onUnbindViewHolder(viewHolder: ViewHolder) {
+    override fun onUnbindViewHolder(viewHolder: ImageCardViewPresenter.ViewHolder) {
         val cardView = viewHolder.view as ImageCardView
         // Clear image to free memory
         cardView.mainImage = null
