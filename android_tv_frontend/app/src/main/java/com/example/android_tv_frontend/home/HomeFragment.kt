@@ -9,7 +9,6 @@ import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ImageCardView
-import androidx.leanback.widget.ImageCardViewPresenter
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
 import androidx.leanback.widget.Presenter
@@ -149,16 +148,14 @@ class CardPresenterSelector(private val context: Context) : PresenterSelector() 
 }
 
 /**
- * Custom ImageCardPresenter with Ocean Professional colors and DPAD focus scaling/highlight,
- * and an optional progress bar display under the image.
+ * Custom presenter using ImageCardView directly to avoid dependency on ImageCardViewPresenter.
+ * Provides Ocean Professional colors and DPAD focus scaling/highlight, and an optional progress bar.
  */
-class OPImageCardPresenter(private val context: Context) : ImageCardViewPresenter() {
+class OPImageCardPresenter(private val context: Context) : Presenter() {
 
-    private fun setThemeColor(context: Context) {
-        // The base ImageCardViewPresenter uses default colors; adjustments happen in onCreateViewHolder
-    }
+    class ViewHolder(val cardView: ImageCardView) : Presenter.ViewHolder(cardView)
 
-    override fun onCreateViewHolder(parent: ViewGroup): ImageCardViewPresenter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         val cardView = object : ImageCardView(parent.context) {
             override fun setSelected(selected: Boolean) {
                 super.setSelected(selected)
@@ -185,15 +182,28 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         cardView.titleText = ""
         cardView.contentText = ""
 
-        return ImageCardViewPresenter.ViewHolder(cardView)
+        return ViewHolder(cardView)
     }
 
-    override fun onBindViewHolder(viewHolder: ImageCardViewPresenter.ViewHolder, item: Any) {
+    override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
+        val vh = viewHolder as ViewHolder
+        val cardView = vh.cardView
         val card = item as CardItem
-        val cardView = viewHolder.view as ImageCardView
+
         cardView.titleText = card.title
-        // Use top-level style R id (Android generates underscores)
-        cardView.setTitleTextAppearance(R.style.OP_CardTitleText)
+        // Set title text appearance if available via method; otherwise set properties directly
+        // ImageCardView doesn't expose setTitleTextAppearance in all versions, so set directly via TextView ids if present.
+        try {
+            val titleId = androidx.leanback.R.id.title_text
+            val titleView = cardView.findViewById<View>(titleId)
+            if (titleView is android.widget.TextView) {
+                titleView.setTextColor(ContextCompat.getColor(cardView.context, R.color.op_surface))
+                titleView.textSize = 18f
+                titleView.setTypeface(titleView.typeface, android.graphics.Typeface.BOLD)
+            }
+        } catch (_: Throwable) {
+            // No-op fallback
+        }
 
         // Load images from resources (we copied Figma PNGs as drawables)
         cardView.mainImage = ContextCompat.getDrawable(cardView.context, card.imageRes)
@@ -248,9 +258,9 @@ class OPImageCardPresenter(private val context: Context) : ImageCardViewPresente
         return container
     }
 
-    override fun onUnbindViewHolder(viewHolder: ImageCardViewPresenter.ViewHolder) {
-        val cardView = viewHolder.view as ImageCardView
+    override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
+        val vh = viewHolder as ViewHolder
         // Clear image to free memory
-        cardView.mainImage = null
+        vh.cardView.mainImage = null
     }
 }

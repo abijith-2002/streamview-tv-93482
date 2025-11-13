@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Optional flags used by our code; Leanback has its own internal configs -->
+    <!-- Do not reference missing attrs like focusHighlightOn/focusHighlightUseZ in XML -->
     <bool name="lb_focus_highlight_enabled">true</bool>
     <bool name="lb_focus_z_enabled">true</bool>
 

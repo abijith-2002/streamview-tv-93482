@@ -7,7 +7,7 @@
         <item name="android:colorPrimary">@color/op_primary</item>
         <item name="android:colorAccent">@color/op_secondary</item>
 
-        <!-- Safe references to our own top-level styles (no dotted names) -->
+        <!-- Only reference local styles we define; avoid missing LB-specific attrs -->
         <item name="browseTitleTextStyle">@style/OP_TitleTextStyle</item>
         <item name="rowHeaderStyle">@style/OP_RowHeaderStyle</item>
         <item name="searchOrbViewStyle">@style/OP_SearchOrb</item>

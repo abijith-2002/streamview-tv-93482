@@ -42,9 +42,8 @@ android {
 }
 
 dependencies {
-    // Android TV Core (Leanback UI components) - use stable versions available in Google Maven (alpha 1.2.0 not resolvable in this environment)
+    // Android TV Core (Leanback UI components) - use a resolvable stable artifact
     implementation("androidx.leanback:leanback:1.1.0-rc02")
-    // Removed leanback-preference; not required for current UI and not resolvable in this environment
     implementation("androidx.tvprovider:tvprovider:1.0.0")
 
     // AndroidX Core
