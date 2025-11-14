@@ -2,42 +2,25 @@ package com.example.android_tv_frontend
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import android.view.KeyEvent
-import android.widget.TextView
+import androidx.activity.compose.setContent
+import com.example.android_tv_frontend.ui.home.HomeRoot
+import com.example.android_tv_frontend.ui.theme.OceanTVTheme
 
 /**
  * Main Activity for Android TV
  * Extends FragmentActivity for Leanback compatibility
+ * Renders the Home screen using Compose for TV.
  */
 class MainActivity : FragmentActivity() {
 
-    private lateinit var titleText: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        
-        titleText = findViewById(R.id.title_text)
-        titleText.text = "android_tv_frontend"
-        
-        // TODO: Initialize your rating screen components here
-        // setupRatingOverlay()
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // Handle TV remote control inputs
-        return when (keyCode) {
-            KeyEvent.KEYCODE_DPAD_CENTER,
-            KeyEvent.KEYCODE_ENTER -> {
-                // Handle SELECT/OK button
-                true
+        setContent {
+            OceanTVTheme(darkTheme = true) {
+                HomeRoot(
+                    onNavSelected = { /* Stub: hook up navigation destinations here */ }
+                )
             }
-            KeyEvent.KEYCODE_BACK -> {
-                // Handle BACK button
-                finish()
-                true
-            }
-            else -> super.onKeyDown(keyCode, event)
         }
     }
 }

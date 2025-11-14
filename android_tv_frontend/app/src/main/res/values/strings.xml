@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">android_tv_frontend</string>
-    
+
+    <!-- Top Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_movies">Películas</string>
+    <string name="nav_series">Series</string>
+    <string name="nav_live_tv">TV en vivo</string>
+    <string name="nav_kids">Kids</string>
+    <string name="nav_my_content">Mis Contenidos</string>
+    <string name="nav_profile">Perfil</string>
+
     <!-- Rating Screen Strings -->
     <string name="rating_title">Did you like it?</string>
     <string name="rating_message">Your vote helps us recommend more content like this.</string>
     <string name="rating_like">I like it</string>
     <string name="rating_love">I love it</string>
-    <string name="rating_dislike">I don\'t like it</string>
+    <string name="rating_dislike">I do not like it</string>
     <string name="rating_close">Close</string>
     <string name="rating_countdown">Closing in %d seconds</string>
 </resources>
